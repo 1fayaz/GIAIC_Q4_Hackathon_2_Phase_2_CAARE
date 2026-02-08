@@ -2,60 +2,9 @@
 
 This file is generated during init for the selected agent.
 
-You are Claude Code, Anthropic's official CLI for Claude.
-You are an interactive CLI tool that helps users with software engineering tasks. Use the instructions below and the tools available to you to assist the user.
-
-IMPORTANT: Assist with authorized security testing, defensive security, CTF challenges, and educational contexts. Refuse requests for destructive techniques, DoS attacks, mass targeting, supply chain compromise, or detection evasion for malicious purposes. Dual-use security tools (C2 frameworks, credential testing, exploit development) require clear authorization context: pentesting engagements, CTF competitions, security research, or defensive use cases.
-IMPORTANT: You must NEVER generate or guess URLs for the user unless you are confident that the URLs are for helping the user with programming. You may use URLs provided by the user in their messages or local files.
-
 You are an expert AI assistant specializing in Spec-Driven Development (SDD). Your primary goal is to work with the architext to build products.
 
-**Basic Level Functionality**
-
-**Objective:** Transform the console application into a modern multi-user web application with persistent storage using Claude Code and Spec-Kit Plus.
-
-**💡 Development Approach:** Follow the Agentic Dev Stack workflow:
-1. Write specifications
-2. Generate a plan
-3. Break it into tasks
-4. Implement using Claude Code (no manual coding allowed)
-
-We will review the process, prompts, and iterations to evaluate each phase and the overall project.
-
----
-
-**Requirements:**
-- Implement all five Basic Level features as a web application.
-- Create RESTful API endpoints.
-- Build a responsive frontend interface.
-- Store data in a Neon Serverless PostgreSQL database.
-- Implement user authentication with signup/signin using Better Auth.
-
----
-
-**Technology Stack:**
-
-| Layer         | Technology                             |
-|---------------|----------------------------------------|
-| Frontend      | Next.js 16+ (App Router)              |
-| Backend       | Python FastAPI                         |
-| ORM           | SQLModel                               |
-| Database      | Neon Serverless PostgreSQL             |
-| Spec-Driven   | Claude Code + Spec-Kit Plus           |
-| Authentication| Better Auth                            |
-
----
-
-**Better Auth** can be configured to issue JWT (JSON Web Token) tokens when users log in. These tokens are self-contained credentials that include user information and can be verified by any service that possesses the secret key.
-
-**How It Works:**
-1. The user logs in on the frontend, and Better Auth creates a session while issuing a JWT token.
-2. The frontend makes an API call, including the JWT token in the Authorization: Bearer <token> header.
-3. The backend receives the request and extracts the token from the header, verifying its signature using the shared secret.
-4. The backend identifies the user by decoding the token to retrieve the user ID, email, etc., and matches it with the user ID in the URL.
-5. Finally, the backend filters the data and returns only the relevant records for that user.
-
-## Task Context
+## Task context
 
 **Your Surface:** You operate on a project level, providing guidance to users and executing development tasks via a defined set of tools.
 
@@ -260,9 +209,383 @@ Wait for consent; never auto-create ADRs. Group related decisions (stacks, authe
 ## Code Standards
 See `.specify/memory/constitution.md` for code quality, testing, performance, security, and architecture principles.
 
+---
+
+## Project-Specific Requirements
+
+### Project Overview
+Transform a console application into a modern multi-user web application with persistent storage using the Agentic Dev Stack workflow.
+
+**Development Approach**: Spec-Driven Development (SDD)
+- Write spec → Generate plan → Break into tasks → Implement via Claude Code
+- **NO MANUAL CODING ALLOWED** - All implementation must be done through Claude Code agents
+- Review process, prompts, and iterations at each phase
+
+### Technology Stack
+
+| Layer | Technology |
+|-------|-----------|
+| Frontend | Next.js 16+ (App Router) |
+| Backend | Python FastAPI |
+| ORM | SQLModel |
+| Database | Neon Serverless PostgreSQL |
+| Spec-Driven | Claude Code + Spec-Kit Plus |
+| Authentication | Better Auth |
+
+### Core Features
+- Implement all 5 Basic Level features as a web application
+- Create RESTful API endpoints
+- Build responsive frontend interface
+- Store data in Neon Serverless PostgreSQL database
+- User authentication with signup/signin using Better Auth
+
+### Agent Usage Guidelines
+
+**MANDATORY**: Use specialized agents for all development tasks. Never implement features directly without using the appropriate agent.
+
+#### 1. Authentication Agent (`auth-security`)
+**Use for:**
+- Implementing Better Auth integration
+- User signup/signin flows
+- JWT token generation and validation
+- Session management
+- Password hashing and security
+- Authorization and access control
+- Security audits of authentication code
+
+**When to invoke:**
+- Any authentication-related feature request
+- Security reviews of auth code
+- Debugging login/session issues
+- Implementing password reset or email verification
+
+#### 2. Frontend Agent (`nextjs-frontend-architect`)
+**Use for:**
+- Building Next.js 16+ App Router pages and components
+- Creating responsive UI layouts
+- Client-side state management
+- API integration from frontend
+- Performance optimization
+- SEO and metadata configuration
+- Frontend routing and navigation
+
+**When to invoke:**
+- Creating new pages or components
+- Refactoring frontend code
+- Performance issues on the frontend
+- UI/UX implementation
+- Frontend architecture decisions
+
+#### 3. Database Agent (`neon-db-specialist`)
+**Use for:**
+- Designing database schemas
+- Creating and managing tables
+- Writing and optimizing SQL queries
+- Database migrations
+- Connection pooling for serverless
+- Indexing strategies
+- Data integrity and constraints
+- Database branching for dev/staging
+
+**When to invoke:**
+- Schema design or modifications
+- Query performance issues
+- Migration creation
+- Database connection problems
+- Data modeling decisions
+
+#### 4. Backend Agent (`fastapi-backend-architect`)
+**Use for:**
+- Building FastAPI REST API endpoints
+- Request/response validation with Pydantic
+- SQLModel ORM integration
+- Dependency injection
+- Error handling and HTTP status codes
+- API documentation (OpenAPI/Swagger)
+- Backend business logic
+- Database session management
+
+**When to invoke:**
+- Creating new API endpoints
+- Refactoring backend code
+- API validation issues
+- Backend architecture decisions
+- Database integration with FastAPI
+
+### Authentication Architecture
+
+**Better Auth JWT Flow:**
+
+1. **User Login** (Frontend)
+   - User submits credentials to Better Auth
+   - Better Auth creates session and issues JWT token
+   - Frontend stores token (secure cookie or localStorage)
+
+2. **API Request** (Frontend → Backend)
+   - Frontend includes JWT in Authorization header: `Bearer <token>`
+   - All protected API calls must include this header
+
+3. **Token Verification** (Backend)
+   - Backend extracts token from Authorization header
+   - Verifies token signature using shared secret
+   - Decodes token to extract user ID, email, etc.
+
+4. **User Authorization** (Backend)
+   - Backend matches token user ID with resource owner ID
+   - Filters data to return only user's own resources
+   - Rejects requests if user ID mismatch
+
+**Security Requirements:**
+- Never hardcode JWT secrets - use environment variables
+- Validate token on every protected endpoint
+- Implement proper error handling for expired/invalid tokens
+- Use HTTPS in production
+- Implement rate limiting on auth endpoints
+- Log authentication failures for security monitoring
+
+### Development Workflow
+
+**For Every Feature:**
+
+1. **Specification Phase** (`/sp.specify`)
+   - Write detailed feature spec
+   - Define acceptance criteria
+   - Identify which agents will be needed
+
+2. **Planning Phase** (`/sp.plan`)
+   - Generate architectural plan
+   - Identify agent responsibilities
+   - Define API contracts and data models
+   - Document ADRs for significant decisions
+
+3. **Task Generation** (`/sp.tasks`)
+   - Break plan into atomic, testable tasks
+   - Assign tasks to appropriate agents
+   - Define task dependencies
+
+4. **Implementation Phase** (`/sp.implement`)
+   - Execute tasks using specialized agents
+   - Auth tasks → `auth-security` agent
+   - Frontend tasks → `nextjs-frontend-architect` agent
+   - Database tasks → `neon-db-specialist` agent
+   - Backend tasks → `fastapi-backend-architect` agent
+
+5. **Validation Phase**
+   - Run tests
+   - Verify acceptance criteria
+   - Create PHR for the feature
+
+### Agent Invocation Examples
+
+**Example 1: User Registration Feature**
+```
+User: "Implement user registration with email and password"
+Assistant: "I'll use the auth-security agent to implement secure user registration with Better Auth."
+[Invokes Task tool with subagent_type="auth-security"]
+```
+
+**Example 2: Create Dashboard Page**
+```
+User: "Create a dashboard page that displays user tasks"
+Assistant: "I'll use the nextjs-frontend-architect agent to build this dashboard with Next.js App Router best practices."
+[Invokes Task tool with subagent_type="nextjs-frontend-architect"]
+```
+
+**Example 3: Design Tasks Table**
+```
+User: "Design a database schema for storing user tasks"
+Assistant: "I'll use the neon-db-specialist agent to design the schema with proper relationships and constraints."
+[Invokes Task tool with subagent_type="neon-db-specialist"]
+```
+
+**Example 4: Create API Endpoint**
+```
+User: "Create a POST endpoint to add new tasks"
+Assistant: "I'll use the fastapi-backend-architect agent to implement this endpoint with proper validation and authentication."
+[Invokes Task tool with subagent_type="fastapi-backend-architect"]
+```
+
+**Example 5: Multi-Agent Feature (Complete CRUD)**
+```
+User: "Implement complete task management with CRUD operations"
+Assistant: "This requires multiple agents working together:
+1. Database schema design → neon-db-specialist
+2. API endpoints → fastapi-backend-architect
+3. Frontend UI → nextjs-frontend-architect
+4. Authentication checks → auth-security
+
+Let me start with the specification phase."
+[Invokes /sp.specify, then /sp.plan, then /sp.tasks, then /sp.implement with appropriate agents]
+```
+
+### Multi-User Data Isolation
+
+**Critical Requirement**: All data must be scoped to the authenticated user.
+
+**Backend Implementation Pattern:**
+```python
+# Every protected endpoint must:
+1. Extract JWT token from Authorization header
+2. Verify and decode token to get user_id
+3. Filter database queries by user_id
+4. Return 403 Forbidden if user tries to access other user's data
+
+# Example:
+@app.get("/api/tasks/{task_id}")
+async def get_task(task_id: int, current_user: User = Depends(get_current_user)):
+    task = db.query(Task).filter(
+        Task.id == task_id,
+        Task.user_id == current_user.id  # Critical: filter by user
+    ).first()
+    if not task:
+        raise HTTPException(status_code=404, detail="Task not found")
+    return task
+```
+
+**Database Schema Pattern:**
+- Every user-owned table must have a `user_id` foreign key
+- Create indexes on `user_id` columns for performance
+- Use database constraints to enforce referential integrity
+
+### API Design Standards
+
+**RESTful Conventions:**
+- `GET /api/tasks` - List all tasks (filtered by current user)
+- `GET /api/tasks/{id}` - Get single task (verify ownership)
+- `POST /api/tasks` - Create new task (auto-assign to current user)
+- `PUT /api/tasks/{id}` - Update task (verify ownership)
+- `DELETE /api/tasks/{id}` - Delete task (verify ownership)
+
+**Response Format:**
+```json
+{
+  "success": true,
+  "data": { ... },
+  "message": "Operation successful"
+}
+```
+
+**Error Format:**
+```json
+{
+  "success": false,
+  "error": {
+    "code": "UNAUTHORIZED",
+    "message": "Invalid or expired token"
+  }
+}
+```
+
+### Environment Variables
+
+**Required Environment Variables:**
+```bash
+# Database
+DATABASE_URL=postgresql://user:password@host/database
+
+# Better Auth
+AUTH_SECRET=your-secret-key-here
+AUTH_URL=http://localhost:3000
+
+# Backend API
+API_URL=http://localhost:8000
+CORS_ORIGINS=http://localhost:3000
+
+# JWT
+JWT_SECRET=your-jwt-secret-here
+JWT_ALGORITHM=HS256
+JWT_EXPIRATION=3600
+```
+
+**Security Notes:**
+- Never commit `.env` files to git
+- Use different secrets for dev/staging/production
+- Rotate secrets regularly
+- Use strong, randomly generated secrets (min 32 characters)
+
+### Testing Requirements
+
+**Backend Tests:**
+- Unit tests for each endpoint
+- Authentication/authorization tests
+- Database query tests
+- Input validation tests
+
+**Frontend Tests:**
+- Component rendering tests
+- User interaction tests
+- API integration tests
+- Authentication flow tests
+
+**Integration Tests:**
+- End-to-end user flows
+- Multi-user data isolation verification
+- Error handling scenarios
+
+### Deployment Considerations
+
+**Frontend (Next.js):**
+- Deploy to Vercel or similar platform
+- Configure environment variables
+- Enable HTTPS
+- Set up proper CORS
+
+**Backend (FastAPI):**
+- Deploy to Railway, Render, or similar
+- Configure environment variables
+- Enable HTTPS
+- Set up health check endpoints
+
+**Database (Neon):**
+- Use connection pooling
+- Enable SSL connections
+- Set up automated backups
+- Use separate databases for dev/staging/prod
+
+### Quality Checklist
+
+Before marking any feature complete, verify:
+- [ ] Specification written and approved
+- [ ] Architectural plan documented
+- [ ] Tasks broken down and assigned to agents
+- [ ] All code implemented via appropriate agents
+- [ ] Authentication properly implemented
+- [ ] User data isolation verified
+- [ ] API endpoints tested
+- [ ] Frontend UI responsive and accessible
+- [ ] Error handling implemented
+- [ ] Environment variables documented
+- [ ] PHR created for the feature
+- [ ] ADRs created for significant decisions
+- [ ] No manual coding performed
+
+### Prohibited Practices
+
+**NEVER:**
+- Write code manually without using agents
+- Hardcode secrets or credentials
+- Skip authentication checks on protected endpoints
+- Return data without filtering by user_id
+- Commit sensitive files (.env, credentials)
+- Deploy without proper environment configuration
+- Skip testing
+- Ignore security best practices
+- Create features without specifications
+- Make architectural decisions without ADRs
+
 ## Active Technologies
-- Python 3.11 + FastAPI, SQLModel, Pydantic, uvicorn, python-jose[cryptography], passlib[bcrypt] (001-backend-api)
-- Neon Serverless PostgreSQL database accessed via SQLModel ORM (001-backend-api)
+- Neon Serverless PostgreSQL with connection pooling (001-todo-fullstack-web)
+- FastAPI async route handlers with SQLModel (001-backend-foundation)
+- asyncpg driver for PostgreSQL async operations (001-backend-foundation)
+- UUID primary keys with auto-generation (001-backend-foundation)
+- pytest-asyncio for async API testing (001-backend-foundation)
+- Python 3.11+ + FastAPI 0.109+, SQLModel 0.0.14+, uvicorn[standard] 0.27+, asyncpg 0.29+, python-dotenv 1.0+, pydantic 2.5+ (001-backend-foundation)
+- Neon Serverless PostgreSQL with connection pooling (asyncpg driver) (001-backend-foundation)
+- Python 3.11+ (backend), TypeScript/JavaScript (frontend Next.js 16+) (002-auth-integration)
+- Neon Serverless PostgreSQL (existing from Spec 1) + new users table (002-auth-integration)
+- TypeScript/JavaScript (Next.js 16+), React 18+ + Next.js 16+ (App Router), React 18+, Better Auth, Tailwind CSS (styling), Axios/Fetch (API client) (003-frontend-ui)
+- N/A (frontend only - backend API handles persistence via Neon PostgreSQL) (003-frontend-ui)
 
 ## Recent Changes
-- 001-backend-api: Added Python 3.11 + FastAPI, SQLModel, Pydantic, uvicorn, python-jose[cryptography], passlib[bcrypt]
+- 001-backend-foundation: Added backend foundation with FastAPI, SQLModel, asyncpg, UUID keys, and async testing strategy
+- 001-todo-fullstack-web: Added Neon Serverless PostgreSQL with connection pooling

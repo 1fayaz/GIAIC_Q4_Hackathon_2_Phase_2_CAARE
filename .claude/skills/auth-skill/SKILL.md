@@ -1,69 +1,55 @@
 ---
 name: auth-skill
-description: Design and implement secure authentication systems including signup, signin, password hashing, JWT tokens, and advanced auth integrations.
+description: Implement secure authentication systems including signup, signin, password hashing, JWT tokens, and Better Auth integration.
 ---
 
-# Authentication Skill
+# Auth Skill – Secure Authentication & Authorization
 
 ## Instructions
 
-1. **User Signup**
-   - Validate input strictly (email, username, password)
+1. **User Authentication Flows**
+   - Implement signup and signin flows
+   - Validate user inputs (email, password, OTP)
+   - Support logout and session invalidation
+   - Handle forgotten password and reset flows
+
+2. **Password Security**
+   - Hash passwords using industry standards (bcrypt, argon2)
+   - Never store plaintext passwords
    - Enforce strong password rules
-   - Hash passwords before storage (never store plain text)
-   - Prevent duplicate accounts
-   - Return minimal success responses (avoid leaking info)
+   - Use proper salting and cost factors
 
-2. **User Signin**
-   - Verify credentials securely
-   - Use constant-time comparisons for passwords
-   - Handle incorrect credentials without revealing details
-   - Apply rate limiting and brute-force protection
+3. **JWT & Session Management**
+   - Generate and verify JWT access tokens
+   - Use refresh tokens securely
+   - Handle token expiration and rotation
+   - Protect routes using middleware/guards
 
-3. **Password Security**
-   - Use modern hashing algorithms (bcrypt, argon2, or scrypt)
-   - Apply salting automatically
-   - Never log or expose passwords
-   - Support password reset flows using time-limited tokens
+4. **Better Auth Integration**
+   - Integrate Better Auth for modern auth workflows
+   - Configure providers and callbacks securely
+   - Manage user sessions via Better Auth APIs
+   - Sync user identity with application database
 
-4. **JWT Tokens**
-   - Issue short-lived access tokens
-   - Use refresh tokens for session continuity
-   - Store tokens securely (HTTP-only cookies preferred)
-   - Validate token signature, issuer, audience, and expiration
-   - Rotate and revoke tokens when necessary
-
-5. **Enhanced Authentication Integration**
-   - Integrate external auth providers or Better Auth correctly
-   - Secure secrets and environment variables
-   - Support role-based or permission-based authorization
-   - Ensure compatibility with frontend and backend frameworks
+5. **Authorization**
+   - Implement role-based access control (RBAC)
+   - Protect sensitive routes and resources
+   - Ensure least-privilege access
 
 ## Best Practices
-- Follow OWASP authentication guidelines
-- Use HTTPS everywhere
-- Prefer HTTP-only, Secure cookies over localStorage
-- Implement CSRF protection when using cookies
-- Log auth events without sensitive data
-- Fail securely and explicitly
-- Keep auth logic centralized and auditable
+- Always hash passwords before storing
+- Use HTTPS for all auth-related requests
+- Store JWTs securely (httpOnly cookies preferred)
+- Prevent common attacks (CSRF, XSS, brute force)
+- Centralize auth logic for maintainability
+- Log auth events without leaking sensitive data
 
 ## Example Structure
+
+### Signup
 ```ts
-// Signup
-POST /auth/signup
-- Validate input
-- Hash password
-- Store user
-- Return success
-
-// Signin
-POST /auth/signin
-- Verify credentials
-- Issue JWT access & refresh tokens
-
-// Protected Route
-GET /profile
-- Verify JWT
-- Authorize user
-- Return protected data
+const hashedPassword = await bcrypt.hash(password, 12);
+await db.user.create({
+  email,
+  password: hashedPassword,
+});

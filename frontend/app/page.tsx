@@ -1,28 +1,34 @@
+// Landing page with redirect logic
+// Implements T023 from tasks.md
+
 'use client';
 
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '../src/providers/AuthProvider';
+import { useAuth } from '@/hooks/useAuth';
+import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
 
-export default function HomePage() {
+export default function Home() {
   const router = useRouter();
-  const { user, isLoading } = useAuth();
+  const { isAuthenticated, isLoading } = useAuth();
 
   useEffect(() => {
-    if (!isLoading) {
-      if (user) {
-        router.push('/dashboard/tasks');
-      } else {
-        router.push('/(auth)/sign-in');
-      }
-    }
-  }, [user, isLoading, router]);
+    // Wait for auth state to load
+    if (isLoading) return;
 
+    // Redirect based on authentication status
+    if (isAuthenticated) {
+      router.push('/tasks');
+    } else {
+      router.push('/signin');
+    }
+  }, [isAuthenticated, isLoading, router]);
+
+  // Show loading state while checking authentication
   return (
-    <div className="flex items-center justify-center min-h-screen">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50">
       <div className="text-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto"></div>
-        <p className="mt-4 text-gray-600">Loading...</p>
+        <LoadingSpinner size="lg" text="Loading..." />
       </div>
     </div>
   );

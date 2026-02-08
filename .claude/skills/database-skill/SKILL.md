@@ -1,6 +1,6 @@
 ---
 name: database-skill
-description: Design and manage database schemas, create tables, and handle safe, maintainable migrations.
+description: Design relational database schemas, create tables, and manage migrations safely and efficiently.
 ---
 
 # Database Skill – Schema Design & Migrations
@@ -8,50 +8,44 @@ description: Design and manage database schemas, create tables, and handle safe,
 ## Instructions
 
 1. **Schema Design**
-   - Identify entities and relationships clearly
-   - Normalize data appropriately (avoid over/under-normalization)
-   - Define primary keys, foreign keys, and constraints
-   - Choose correct data types and defaults
-   - Plan for future extensibility
+   - Design normalized relational schemas
+   - Define primary keys and foreign keys
+   - Apply constraints (UNIQUE, NOT NULL, CHECK)
+   - Model relationships clearly (one-to-one, one-to-many, many-to-many)
 
 2. **Table Creation**
-   - Create tables with explicit constraints
-   - Use indexes for frequently queried fields
-   - Enforce data integrity at the database level
-   - Avoid nullable fields unless required
-   - Follow consistent naming conventions
+   - Create tables with appropriate data types
+   - Use indexes for frequently queried columns
+   - Enforce referential integrity
+   - Plan for scalability and future changes
 
 3. **Migrations**
-   - Use versioned, reversible migrations
-   - Keep migrations small and focused
-   - Avoid destructive changes without backups
-   - Ensure migrations are idempotent when possible
-   - Test migrations on staging before production
+   - Write forward and backward migrations
+   - Keep migrations atomic and reversible
+   - Apply schema changes incrementally
+   - Maintain migration order and consistency across environments
 
-4. **Relationships & Constraints**
-   - Define foreign keys with proper cascading rules
-   - Use unique constraints where applicable
-   - Leverage check constraints for data validation
-   - Maintain referential integrity at all times
+4. **Schema Evolution**
+   - Modify existing tables safely
+   - Avoid destructive changes when possible
+   - Handle data backfills and defaults
+   - Version schema changes clearly
 
 ## Best Practices
-- Treat the database schema as source code
-- Prefer explicit constraints over application-only validation
-- Document schema decisions and trade-offs
-- Use transactions for multi-step schema changes
-- Optimize indexes based on real query patterns
-- Keep migrations backward-compatible when possible
+- Prefer explicit schemas over implicit behavior
+- Never modify production data without a migration
+- Use descriptive table and column names
+- Index intentionally, not excessively
+- Keep migrations small and reviewable
+- Test migrations in staging before production
 
 ## Example Structure
+
+### Create Table
 ```sql
--- Users table
 CREATE TABLE users (
   id UUID PRIMARY KEY,
-  email TEXT NOT NULL UNIQUE,
+  email TEXT UNIQUE NOT NULL,
   password_hash TEXT NOT NULL,
-  created_at TIMESTAMP DEFAULT now()
+  created_at TIMESTAMP DEFAULT NOW()
 );
-
--- Migration example
-ALTER TABLE users
-ADD COLUMN is_active BOOLEAN NOT NULL DEFAULT true;

@@ -1,73 +1,82 @@
-# Todo Backend API
+# Backend API - Task Management
 
-This is the backend API for the Todo Full-Stack Web Application, built with FastAPI and secured with JWT authentication.
+Production-ready FastAPI backend with SQLModel ORM and Neon Serverless PostgreSQL for task management.
 
-## Features
+## Quick Start
 
-- Secure task management with JWT-based authentication
-- User isolation - each user can only access their own tasks
-- RESTful API endpoints for task operations
-- SQLModel ORM for database operations
-- Neon Serverless PostgreSQL database
+For detailed setup and testing instructions, see [quickstart.md](../specs/002-backend-foundation/quickstart.md).
 
-## Tech Stack
+### Prerequisites
 
-- Python 3.11
-- FastAPI
-- SQLModel
-- Pydantic
-- Uvicorn
-- python-jose for JWT handling
-- passlib for password hashing
-- Alembic for database migrations
+- Python 3.11+
+- Neon PostgreSQL account
+- Git
 
-## Setup
+### Installation
 
-1. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
+1. Create virtual environment:
+```bash
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+```
 
-2. Set up environment variables in a `.env` file:
-   ```
-   DATABASE_URL=postgresql://username:password@host:port/database
-   JWT_SECRET_KEY=your-super-secret-jwt-signing-key-here
-   ```
+2. Install dependencies:
+```bash
+pip install -r requirements.txt
+```
 
-3. Run database migrations:
-   ```bash
-   alembic upgrade head
-   ```
+3. Configure environment:
+```bash
+cp .env.example .env
+# Edit .env and add your Neon DATABASE_URL
+```
 
-4. Start the development server:
-   ```bash
-   uvicorn src.main:app --reload
-   ```
+4. Run the server:
+```bash
+uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+```
+
+5. Access API documentation:
+- Swagger UI: http://localhost:8000/docs
+- ReDoc: http://localhost:8000/redoc
 
 ## API Endpoints
 
-The API provides the following endpoints for task management:
+- `POST /api/{user_id}/tasks` - Create task
+- `GET /api/{user_id}/tasks` - List all tasks
+- `GET /api/{user_id}/tasks/{id}` - Get single task
+- `PUT /api/{user_id}/tasks/{id}` - Update task
+- `DELETE /api/{user_id}/tasks/{id}` - Delete task
+- `PATCH /api/{user_id}/tasks/{id}/complete` - Toggle completion
 
-- `GET /api/{user_id}/tasks` - List all tasks for a user
-- `POST /api/{user_id}/tasks` - Create a new task
-- `GET /api/{user_id}/tasks/{id}` - Get task details
-- `PUT /api/{user_id}/tasks/{id}` - Update a task
-- `DELETE /api/{user_id}/tasks/{id}` - Delete a task
-- `PATCH /api/{user_id}/tasks/{id}/complete` - Toggle task completion status
+## Project Structure
 
-All endpoints require a valid JWT token in the Authorization header.
-
-## Security
-
-- All endpoints require JWT authentication
-- User ID in the URL must match the user ID in the JWT token
-- Users can only access their own tasks
-- Passwords are securely hashed using bcrypt
-- JWT tokens are signed with a secret key and have expiration times
+```
+backend/
+├── app/
+│   ├── core/          # Configuration and database
+│   ├── models/        # SQLModel entities
+│   ├── schemas/       # Pydantic request/response schemas
+│   ├── routes/        # API endpoints
+│   ├── services/      # Business logic
+│   └── main.py        # FastAPI application
+├── tests/             # Test suite (future)
+├── requirements.txt   # Python dependencies
+└── .env.example       # Environment template
+```
 
 ## Development
 
-- Use black for code formatting
-- Use flake8 for linting
-- Write tests with pytest
-- Follow FastAPI best practices
+See [quickstart.md](../specs/002-backend-foundation/quickstart.md) for:
+- Testing via Swagger UI
+- Testing via cURL
+- Running tests
+- Common issues and solutions
+
+## Documentation
+
+- [Feature Specification](../specs/002-backend-foundation/spec.md)
+- [Implementation Plan](../specs/002-backend-foundation/plan.md)
+- [Data Model](../specs/002-backend-foundation/data-model.md)
+- [API Contracts](../specs/002-backend-foundation/contracts/tasks-api.yaml)
+- [Quickstart Guide](../specs/002-backend-foundation/quickstart.md)

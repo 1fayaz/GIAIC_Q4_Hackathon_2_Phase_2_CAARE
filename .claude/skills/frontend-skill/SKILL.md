@@ -1,52 +1,50 @@
 ---
 name: frontend-skill
-description: Build frontend pages, reusable components, layouts, and styling using modern UI best practices.
+description: Build frontend pages, components, layouts, and styling with clean, responsive UI patterns.
 ---
 
-# Frontend Skill – Pages, Components & Styling
+# Frontend Skill – UI Composition & Styling
 
 ## Instructions
 
 1. **Page Construction**
-   - Build pages using a clear structure
-   - Separate layout, content, and logic
+   - Build pages using clear layout structures
+   - Organize routes and views logically
    - Handle loading, error, and empty states
-   - Ensure pages are responsive across devices
+   - Ensure responsive behavior across devices
 
 2. **Component Design**
-   - Create reusable, composable components
+   - Create reusable and composable components
    - Keep components small and focused
-   - Use clear props and predictable behavior
-   - Avoid unnecessary re-renders
+   - Separate presentational and logic concerns
+   - Maintain consistent props and interfaces
 
-3. **Layout System**
-   - Use consistent layout patterns
-   - Apply grid and flexbox effectively
+3. **Layout Structure**
+   - Use layout components for shared UI
+   - Apply grid and flexbox appropriately
    - Maintain visual hierarchy and spacing
    - Support responsive breakpoints
 
 4. **Styling**
-   - Use a consistent styling system (CSS Modules, Tailwind, styled-components, etc.)
-   - Follow design tokens for colors, spacing, and typography
-   - Ensure accessible contrast and font sizes
-   - Avoid inline styles unless necessary
+   - Apply consistent styling conventions
+   - Use design systems or utility-first CSS
+   - Ensure accessible color contrast and typography
+   - Support dark/light themes when applicable
 
 ## Best Practices
-- Mobile-first and responsive design
-- Consistent naming conventions
-- Accessibility (semantic HTML, ARIA when needed)
+- Design mobile-first and scale up
 - Reuse components instead of duplicating UI
-- Keep styles maintainable and scalable
-- Optimize assets and fonts for performance
+- Keep styling consistent across the app
+- Avoid deeply nested components
+- Use semantic HTML for accessibility
+- Optimize for readability and maintainability
 
 ## Example Structure
+
+### Page Layout
 ```tsx
-// Page
-<PageLayout>
+<Layout>
   <Header />
-  <MainContent>
-    <Card title="Feature">
-      <Button>Get Started</Button>
-    </Card>
-  </MainContent>
-</PageLayout>
+  <MainContent />
+  <Footer />
+</Layout>

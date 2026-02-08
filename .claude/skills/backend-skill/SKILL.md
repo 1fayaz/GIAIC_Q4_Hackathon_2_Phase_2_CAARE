@@ -1,61 +1,49 @@
 ---
 name: backend-skill
-description: Generate backend routes, handle requests and responses, and connect securely to databases.
+description: Build backend APIs by generating routes, handling requests and responses, and connecting to databases reliably.
 ---
 
-# Backend Skill – Routes, Requests & Database Integration
+# Backend Skill – API Routes & Data Access
 
 ## Instructions
 
 1. **Route Generation**
-   - Define clear and RESTful API routes
+   - Define RESTful API routes
    - Use proper HTTP methods (GET, POST, PUT, DELETE)
-   - Group routes by resource or domain
-   - Apply versioning where necessary
-   - Keep route naming consistent and predictable
+   - Structure routes logically by resource
+   - Apply consistent URL naming conventions
 
-2. **Request Handling**
-   - Validate incoming requests strictly
-   - Parse and sanitize input data
-   - Handle query parameters, path params, and request bodies correctly
-   - Apply authentication and authorization checks
-   - Use middleware/dependencies for cross-cutting concerns
+2. **Request & Response Handling**
+   - Parse and validate incoming requests
+   - Return structured and predictable responses
+   - Use correct HTTP status codes
+   - Handle errors and edge cases gracefully
 
-3. **Response Handling**
-   - Return consistent response formats
-   - Use appropriate HTTP status codes
-   - Handle errors gracefully and explicitly
-   - Avoid leaking internal implementation details
-   - Include pagination and metadata when applicable
+3. **Database Connectivity**
+   - Establish secure database connections
+   - Perform CRUD operations safely
+   - Use transactions where necessary
+   - Abstract database logic from route handlers
 
-4. **Database Connection**
-   - Establish and manage database connections safely
-   - Use ORMs or query builders appropriately
-   - Execute queries within transactions when required
-   - Prevent SQL/NoSQL injection
-   - Handle connection pooling and lifecycle management
+4. **Backend Architecture**
+   - Separate routes, services, and data layers
+   - Keep business logic out of controllers
+   - Reuse shared utilities and helpers
+   - Maintain clean and readable code structure
 
 ## Best Practices
-- Keep business logic separate from routing logic
-- Validate data at both API and database layers
-- Use async/non-blocking I/O where possible
-- Log requests and errors without sensitive data
-- Centralize error handling
-- Write unit and integration tests for routes
+- Validate all incoming data
+- Never trust client input
+- Keep routes thin and focused
+- Handle errors centrally
+- Avoid tight coupling between layers
+- Ensure backend code is testable and maintainable
 
 ## Example Structure
+
+### Route Definition
 ```ts
-// Route
-GET /users
-
-// Handler flow
-- Validate request
-- Fetch data from DB
-- Transform result
-- Return response
-
-// Example response
-{
-  "data": [],
-  "meta": { "count": 0 }
-}
+app.post("/users", async (req, res) => {
+  const user = await userService.create(req.body);
+  res.status(201).json(user);
+});
