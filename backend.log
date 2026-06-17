@@ -1,0 +1,42 @@
+INFO:     Started server process [26236]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     127.0.0.1:57086 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56068 - "OPTIONS /api/auth/session HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55020 - "GET /api/auth/session HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56068 - "OPTIONS /api/tasks?sort_by=created_at&order=desc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55020 - "GET /api/tasks?sort_by=created_at&order=desc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56068 - "OPTIONS /api/auth/logout HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61787 - "POST /api/auth/logout HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55020 - "GET /api/tasks?sort_by=created_at&order=desc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55020 - "GET /api/tasks?sort_by=created_at&order=desc HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:55020 - "GET /api/tasks?sort_by=created_at&order=desc HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:56068 - "OPTIONS /api/auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55020 - "POST /api/auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55020 - "GET /api/tasks?sort_by=created_at&order=desc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49769 - "POST /api/auth/logout HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55020 - "GET /api/tasks?sort_by=created_at&order=desc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55020 - "GET /api/tasks?sort_by=created_at&order=desc HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:55020 - "GET /api/tasks?sort_by=created_at&order=desc HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:55020 - "POST /api/auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55020 - "GET /api/tasks?sort_by=created_at&order=desc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55020 - "GET /api/tasks?sort_by=created_at&order=desc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53500 - "OPTIONS /api/tasks HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62671 - "POST /api/tasks HTTP/1.1" 201 Created
+INFO:     127.0.0.1:54437 - "OPTIONS /api/tasks/db3c087c-6f66-4d20-96f6-09fe78992a67 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54437 - "OPTIONS /api/tasks/2eb6f6ca-c02f-47f4-af46-34fe8e163959 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62671 - "PUT /api/tasks/db3c087c-6f66-4d20-96f6-09fe78992a67 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53051 - "PUT /api/tasks/2eb6f6ca-c02f-47f4-af46-34fe8e163959 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60462 - "OPTIONS /api/tasks?status=completed&sort_by=created_at&order=desc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57084 - "GET /api/tasks?status=completed&sort_by=created_at&order=desc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60462 - "OPTIONS /api/tasks?status=active&sort_by=created_at&order=desc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57084 - "GET /api/tasks?status=active&sort_by=created_at&order=desc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57841 - "GET /api/tasks?status=completed&sort_by=created_at&order=desc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57841 - "GET /api/tasks?sort_by=created_at&order=desc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61286 - "POST /api/tasks HTTP/1.1" 201 Created
+INFO:     127.0.0.1:53414 - "GET /api/tasks?status=active&sort_by=created_at&order=desc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53414 - "GET /api/tasks?status=completed&sort_by=created_at&order=desc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53414 - "GET /api/tasks?sort_by=created_at&order=desc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59409 - "OPTIONS /api/tasks/7f771194-2c52-46e7-b6e5-6da7d1b86612 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53414 - "PUT /api/tasks/7f771194-2c52-46e7-b6e5-6da7d1b86612 HTTP/1.1" 200 OK

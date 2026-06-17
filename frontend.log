@@ -1,0 +1,20 @@
+
+> frontend@0.1.0 dev
+> next dev
+
+▲ Next.js 16.1.6 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://172.31.64.1:3000
+- Environments: .env.local
+
+✓ Starting...
+⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+✓ Ready in 2.9s
+ GET / 200 in 1254ms (compile: 685ms, proxy.ts: 187ms, render: 382ms)
+ GET / 200 in 279ms (compile: 25ms, proxy.ts: 24ms, render: 229ms)
+ GET /tasks 200 in 459ms (compile: 267ms, proxy.ts: 42ms, render: 150ms)
+ GET /signin 200 in 363ms (compile: 178ms, proxy.ts: 22ms, render: 163ms)
+ GET /tasks 200 in 180ms (compile: 21ms, proxy.ts: 24ms, render: 135ms)
+ GET /signin 200 in 180ms (compile: 23ms, proxy.ts: 23ms, render: 134ms)
+ GET /tasks 200 in 182ms (compile: 20ms, proxy.ts: 19ms, render: 143ms)
+[?25h
