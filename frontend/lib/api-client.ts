@@ -13,6 +13,7 @@ import {
   SignInFormData,
   SignUpFormData,
   TaskFormData,
+  TaskFilters,
   SignInResponse,
   SignUpResponse,
   SessionResponse,
@@ -111,6 +112,38 @@ async function handleResponse<T>(response: Response): Promise<T> {
     'Unexpected server response format',
     response.status
   );
+}
+
+// ============================================================================
+// Query string helpers
+// ============================================================================
+
+/**
+ * Build a `?key=value` query string from a TaskFilters object,
+ * skipping empty / undefined values and the implicit `status=all`.
+ */
+function buildTaskQuery(filters: TaskFilters): string {
+  const params = new URLSearchParams();
+
+  if (filters.search && filters.search.trim()) {
+    params.set('search', filters.search.trim());
+  }
+  if (filters.status && filters.status !== 'all') {
+    params.set('status', filters.status);
+  }
+  if (filters.priority) {
+    params.set('priority', filters.priority);
+  }
+  if (filters.tag && filters.tag.trim()) {
+    params.set('tag', filters.tag.trim());
+  }
+  if (filters.due_before) params.set('due_before', filters.due_before);
+  if (filters.due_after) params.set('due_after', filters.due_after);
+  if (filters.sort_by) params.set('sort_by', filters.sort_by);
+  if (filters.order) params.set('order', filters.order);
+
+  const qs = params.toString();
+  return qs ? `?${qs}` : '';
 }
 
 // ============================================================================
@@ -265,11 +298,14 @@ class ApiClient {
   // ==========================================================================
 
   /**
-   * Get all tasks for the authenticated user
-   * SECURITY: Cookie is automatically sent with request
+   * Get all tasks for the authenticated user.
+   * Optional `filters` are forwarded as query params to the backend
+   * (search, status, priority, tag, due_before, due_after, sort_by, order).
+   * SECURITY: Cookie is automatically sent with request.
    */
-  async getTasks(): Promise<Task[]> {
-    return this.get<Task[]>('/api/tasks');
+  async getTasks(filters?: TaskFilters): Promise<Task[]> {
+    const qs = filters ? buildTaskQuery(filters) : '';
+    return this.get<Task[]>(`/api/tasks${qs}`);
   }
 
   /**

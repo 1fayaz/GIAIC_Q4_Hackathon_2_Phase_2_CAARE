@@ -16,6 +16,11 @@ export interface User {
 }
 
 /**
+ * Priority level for a task
+ */
+export type Priority = 'low' | 'medium' | 'high';
+
+/**
  * Task entity - represents a todo task belonging to a user
  * Source: Backend Task model from Spec 1 (Backend Foundation)
  */
@@ -25,8 +30,25 @@ export interface Task {
   description: string;     // Task description (optional, can be empty string)
   completed: boolean;      // Completion status
   user_id: string;         // UUID of owning user
+  priority: Priority;      // Priority level (low|medium|high)
+  tags: string | null;     // Comma-separated tags (e.g. "work,urgent") or null
+  due_date: string | null; // ISO 8601 timestamp or null
   created_at: string;      // ISO 8601 timestamp
   updated_at: string;      // ISO 8601 timestamp
+}
+
+/**
+ * Filters for the GET /api/tasks endpoint.
+ */
+export interface TaskFilters {
+  search?: string;
+  status?: 'all' | 'active' | 'completed';
+  priority?: Priority;
+  tag?: string;
+  due_before?: string;
+  due_after?: string;
+  sort_by?: 'created_at' | 'updated_at' | 'due_date' | 'priority' | 'title';
+  order?: 'asc' | 'desc';
 }
 
 /**
@@ -66,6 +88,9 @@ export interface SignUpFormData {
 export interface TaskFormData {
   title: string;        // Task title
   description: string;  // Task description (optional)
+  priority: Priority;   // Priority level (defaults to 'medium')
+  tags: string | null;  // Comma-separated tags or null
+  due_date: string | null; // ISO 8601 timestamp or null
 }
 
 // ============================================================================
